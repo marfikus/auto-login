@@ -16,7 +16,6 @@ DEFAULT_CONFIG = {
     "delay": 2,
     "valid_foreground_window_title": "1С",
     "password": "",
-    "auto_click_launch_button": True,
     "debug_print": False,
 }
 config = {}
@@ -52,7 +51,6 @@ def load_config():
     config["delay"] = load_key(parser, "delay", "int")
     config["valid_foreground_window_title"] = load_key(parser, "valid_foreground_window_title")
     config["password"] = load_key(parser, "password")
-    config["auto_click_launch_button"] = load_key(parser, "auto_click_launch_button", "bool")
     config["debug_print"] = load_key(parser, "debug_print", "bool")
 
 
@@ -78,17 +76,10 @@ def main():
     load_config()
     print(f"Current configuration: \n{config}")
 
-    if config["auto_click_launch_button"]:
-        while True:
-            # ищем окно запуска 1с
-            # сканируем его, ищем кнопку запуска Предприятия,
-            # если нашли, нажимаем её, иначе выводим сообщение, что не смогли
-            # и выходим из цикла
-            debug_print("auto_click_launch_button test")
-            break
-            time.sleep(config["delay"])
+    while True:
+        time.sleep(config["delay"])
 
-    while True:        
+
         if is_valid_foreground_window(config["valid_foreground_window_title"]):
             # вводим пароль и жмем enter
             debug_print("login attempt...")
@@ -98,10 +89,7 @@ def main():
             keyboard.press_and_release("enter")
 
             # и закрываемся
-            # exit()
-            return
-
-        time.sleep(config["delay"])
+            exit()
 
 
 if __name__ == "__main__":
